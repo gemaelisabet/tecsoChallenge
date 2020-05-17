@@ -1,0 +1,51 @@
+﻿@model Challenge.Models.TecsoLog
+
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<h2>Eliminar</h2>
+
+<h3>¿Está seguro de que quiere eliminar este Log?</h3>
+<div>
+    <h4>Inscripción</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Fecha
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+
+        <dt>
+            Tipo Log
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoLog)
+        </dd>
+
+        <dt>
+            Texto
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Volver", "Index")
+        </div>
+    }
+</div>
+
+

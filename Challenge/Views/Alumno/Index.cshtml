@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Challenge.Models.Alumno>
+
+@{
+    ViewBag.Title = "Alumnos";
+}
+
+<h2>Alumnos</h2>
+
+<p>
+    @Html.ActionLink("Crear Alumno", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.AlumnoID }) |
+            @Html.ActionLink("Detalle", "Details", new { id=item.AlumnoID }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.AlumnoID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Challenge.Models.Inscripcion>
+
+@{
+    ViewBag.Title = "Inscripciones";
+}
+
+<h2>Inscripciones</h2>
+
+<p>
+    @Html.ActionLink("Crear Inscripción", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Apellido Alumno
+        </th>
+        <th>
+            Nombre Alumno
+        </th>
+        <th>
+            Nombre del Curso
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Alumno.Apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Alumno.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Curso.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id = item.InscripcionID }) |
+            @Html.ActionLink("Detalle", "Details", new { id = item.InscripcionID }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id = item.InscripcionID })
+        </td>
+    </tr>
+}
+
+</table>

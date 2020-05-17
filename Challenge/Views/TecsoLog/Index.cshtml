@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Challenge.Models.TecsoLog>
+
+@{
+    ViewBag.Title = "Logs";
+}
+
+<h2>Logs</h2>
+
+@*<p>
+    @Html.ActionLink("Crear Curso", "Create")
+</p>*@
+<table class="table">
+    <tr>
+        <th>
+            Fecha
+        </th>
+        <th>
+            Tipo Log
+        </th>
+        <th>
+           Texto
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoLog)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+        <td>
+            @Html.ActionLink("Detalle", "Details", new { id = item.TecsoLogID }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id = item.TecsoLogID })
+        </td>
+    </tr>
+    }
+
+</table>
+
+
