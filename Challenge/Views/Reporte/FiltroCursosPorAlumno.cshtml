@@ -18,7 +18,6 @@
         @Html.Label("Alumno", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("AlumnoID", null, String.Empty, htmlAttributes: new { @class = "form-control" })
-            @*@Html.ValidationMessageFor(model => model.AlumnoID, "", new { @class = "text-danger" })*@
         </div>
     </div>
 
@@ -28,18 +27,8 @@
         </div>
     </div>
 
-
-    @*<div class="btn-group" role="group" aria-label="..." style="float: right;">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-lg button-green"> <i class="fa fa-file-excel-o"></i> Exportar a Excel </button>
-        </div>
-    </div>*@
 </div>
 }
-
-@*<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
