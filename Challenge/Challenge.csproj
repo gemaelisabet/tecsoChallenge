@@ -131,7 +131,6 @@
     <Compile Include="Controllers\CursoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InscripcionController.cs" />
-    <Compile Include="Controllers\LoggerController.cs" />
     <Compile Include="Controllers\ReporteController.cs" />
     <Compile Include="Controllers\TecsoLogController.cs" />
     <Compile Include="Global.asax.cs">

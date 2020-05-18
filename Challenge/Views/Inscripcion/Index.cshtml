@@ -20,6 +20,9 @@
         <th>
             Nombre del Curso
         </th>
+        <th>
+            Estado de la cursada
+        </th>
         <th></th>
     </tr>
 
@@ -34,6 +37,22 @@
         <td>
             @Html.DisplayFor(modelItem => item.Curso.Nombre)
         </td>
+
+        @if (item.EstadoCursada.ToString() == "EnCurso")
+        {
+            <td>
+                En Curso
+            </td>
+        }
+        else
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoCursada)
+            </td>
+        }
+
+
+
         <td>
             @Html.ActionLink("Editar", "Edit", new { id = item.InscripcionID }) |
             @Html.ActionLink("Detalle", "Details", new { id = item.InscripcionID }) |

@@ -32,7 +32,6 @@ namespace Challenge.Controllers
         {
             if (id == null)
             {
-                HttpStatusCodeResult error = new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 _logger.LogError("Alumno/Details requiere el id.");
                 return RedirectToAction("Index");
             }
@@ -40,7 +39,6 @@ namespace Challenge.Controllers
             if (alumno == null)
             {
                 _logger.LogError("Alumno/Details AlumnoID "+ id.ToString() +" inexistente.");
-                //return HttpNotFound();
                 return RedirectToAction("Index");
             }
             return View(alumno);
@@ -63,8 +61,7 @@ namespace Challenge.Controllers
             {
                 db.Alumnos.Add(alumno);
                 db.SaveChanges();
-
-                _logger.LogMessage("Se ha creado un alumno nuevo");
+                _logger.LogMessage("Se ha creado un alumno nuevo. AlumnoID: " + alumno.AlumnoID.ToString());
                 return RedirectToAction("Index");
             }
             else
@@ -80,14 +77,12 @@ namespace Challenge.Controllers
         {
             if (id == null)
             {
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 _logger.LogError("Alumno/Details requiere el id.");
                 return RedirectToAction("Index");
             }
             Alumno alumno = db.Alumnos.Find(id);
             if (alumno == null)
             {
-                //return HttpNotFound();
                 _logger.LogError("Alumno/Details AlumnoID " + id.ToString() + " inexistente.");               
                 return RedirectToAction("Index");
             }
@@ -105,6 +100,7 @@ namespace Challenge.Controllers
             {
                 db.Entry(alumno).State = EntityState.Modified;
                 db.SaveChanges();
+                _logger.LogMessage("Se ha editado un alumno. ID: " + alumno.AlumnoID.ToString());
                 return RedirectToAction("Index");
             }
             return View(alumno);
@@ -114,13 +110,15 @@ namespace Challenge.Controllers
         public ActionResult Delete(int? id)
         {
             if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            {              
+                _logger.LogError("Alumno/Delete requiere el id.");
+                return RedirectToAction("Index");
             }
             Alumno alumno = db.Alumnos.Find(id);
             if (alumno == null)
             {
-                return HttpNotFound();
+                _logger.LogError("Alumno/Delete AlumnoID " + id.ToString() + " inexistente.");                
+                return RedirectToAction("Index");
             }
             return View(alumno);
         }
@@ -133,6 +131,9 @@ namespace Challenge.Controllers
             Alumno alumno = db.Alumnos.Find(id);
             db.Alumnos.Remove(alumno);
             db.SaveChanges();
+
+
+            _logger.LogMessage("Se ha eliminado un alumno. AlumnoID: " + id.ToString());
             return RedirectToAction("Index");
         }
 

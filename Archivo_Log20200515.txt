@@ -1,9 +1,0 @@
- 15/5/2020 12:36:35 Se ha creado un alumno nuevo
- 15/5/2020 12:36:42 Se ha creado un alumno nuevo
- 15/5/2020 12:36:49 Se ha creado un alumno nuevo
- 15/5/2020 12:36:56 Se ha creado un alumno nuevo
- 15/5/2020 12:37:04 Se ha creado un alumno nuevo
- 15/5/2020 12:37:17 Se ha creado un alumno nuevo
- 15/5/2020 19:31:31 Se ha creado un alumno nuevo
- 15/5/2020 19:34:49 Alumno/Details requiere el id.
- 15/5/2020 19:38:58 400 - 

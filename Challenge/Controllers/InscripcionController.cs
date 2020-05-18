@@ -14,14 +14,19 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
-
-
+using Challenge.Services;
 
 namespace Challenge.Controllers
 {
     public class InscripcionController : Controller
     {
         private ChallengeDBContext db = new ChallengeDBContext();
+        TecsoLogger _logger;
+
+        public InscripcionController()
+        {
+            _logger = new TecsoLogger(true, true, true, true, true, true);
+        }
 
         // GET: Inscripcion
         public ActionResult Index()
@@ -35,12 +40,14 @@ namespace Challenge.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                _logger.LogError("Inscripcion/Details requiere el id.");
+                return RedirectToAction("Index");
             }
             Inscripcion inscripcion = db.Inscripciones.Find(id);
             if (inscripcion == null)
             {
-                return HttpNotFound();
+                _logger.LogError("Inscripcion/Details InscripcionID " + id.ToString() + " inexistente.");
+                return RedirectToAction("Index");
             }
             return View(inscripcion);
         }
@@ -48,7 +55,6 @@ namespace Challenge.Controllers
         // GET: Inscripcion/Create
         public ActionResult Create()
         {
-            //ViewBag.AlumnoID = new SelectList(db.Alumnos, "ID", "Apellido");
             ViewBag.CursoID = new SelectList(db.Cursos, "CursoID", "Nombre");
 
             List<SelectListItem> alumnos = db.Alumnos.Select(x => new SelectListItem {
@@ -65,16 +71,17 @@ namespace Challenge.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "InscripcionID,CursoID,AlumnoID")] Inscripcion inscripcion)
+        public ActionResult Create([Bind(Include = "InscripcionID,CursoID,AlumnoID,EstadoCursada")] Inscripcion inscripcion)
         {
             if (ModelState.IsValid)
             {
                 db.Inscripciones.Add(inscripcion);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                _logger.LogMessage("Se ha creado una inscripción nueva. InscripcionID: " + inscripcion.InscripcionID.ToString());
+                return RedirectToAction("Index");             
             }
 
-            ViewBag.AlumnoID = new SelectList(db.Alumnos, "ID", "Apellido", inscripcion.AlumnoID);
+            ViewBag.AlumnoID = new SelectList(db.Alumnos, "AlumnoID", "Apellido", inscripcion.AlumnoID);
             ViewBag.CursoID = new SelectList(db.Cursos, "CursoID", "Nombre", inscripcion.CursoID);
             return View(inscripcion);
         }
@@ -84,14 +91,16 @@ namespace Challenge.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                _logger.LogError("Inscripcion/Edit requiere el id.");
+                return RedirectToAction("Index");
             }
             Inscripcion inscripcion = db.Inscripciones.Find(id);
             if (inscripcion == null)
             {
-                return HttpNotFound();
+                _logger.LogError("Inscripcion/Edit InscripcionID " + id.ToString() + " inexistente.");
+                return RedirectToAction("Index");
             }
-            ViewBag.AlumnoID = new SelectList(db.Alumnos, "ID", "Apellido", inscripcion.AlumnoID);
+            ViewBag.AlumnoID = new SelectList(db.Alumnos, "AlumnoID", "Apellido", inscripcion.AlumnoID);
             ViewBag.CursoID = new SelectList(db.Cursos, "CursoID", "Nombre", inscripcion.CursoID);
             return View(inscripcion);
         }
@@ -101,15 +110,16 @@ namespace Challenge.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "InscripcionID,CursoID,AlumnoID")] Inscripcion inscripcion)
+        public ActionResult Edit([Bind(Include = "InscripcionID,CursoID,AlumnoID,EstadoCursada")] Inscripcion inscripcion)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(inscripcion).State = EntityState.Modified;
                 db.SaveChanges();
+                _logger.LogMessage("Se ha editado una inscripción. InscripcionID: " + inscripcion.InscripcionID.ToString());
                 return RedirectToAction("Index");
             }
-            ViewBag.AlumnoID = new SelectList(db.Alumnos, "ID", "Apellido", inscripcion.AlumnoID);
+            ViewBag.AlumnoID = new SelectList(db.Alumnos, "AlumnoID", "Apellido", inscripcion.AlumnoID);
             ViewBag.CursoID = new SelectList(db.Cursos, "CursoID", "Nombre", inscripcion.CursoID);
             return View(inscripcion);
         }
@@ -119,12 +129,14 @@ namespace Challenge.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                _logger.LogError("Inscripcion/Delete requiere el id.");
+                return RedirectToAction("Index");
             }
             Inscripcion inscripcion = db.Inscripciones.Find(id);
             if (inscripcion == null)
             {
-                return HttpNotFound();
+                _logger.LogError("Inscripcion/Delete InscripcionID " + id.ToString() + " inexistente.");
+                return RedirectToAction("Index");
             }
             return View(inscripcion);
         }
@@ -137,6 +149,8 @@ namespace Challenge.Controllers
             Inscripcion inscripcion = db.Inscripciones.Find(id);
             db.Inscripciones.Remove(inscripcion);
             db.SaveChanges();
+            _logger.LogMessage("Se ha eliminado una inscripción. InscripcionID: " + id.ToString());
+
             return RedirectToAction("Index");
         }
 

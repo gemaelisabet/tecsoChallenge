@@ -25,12 +25,14 @@ namespace Challenge.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                _logger.LogError("TecsoLog/Details requiere el id.");
+                return RedirectToAction("Index");
             }
             TecsoLog tecsoLog = db.TecsoLogs.Find(id);
             if (tecsoLog == null)
             {
-                return HttpNotFound();
+                _logger.LogError("TecsoLog/Details InscripcionID " + id.ToString() + " inexistente.");
+                return RedirectToAction("Index");
             }
             return View(tecsoLog);
         }
@@ -39,12 +41,14 @@ namespace Challenge.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                _logger.LogError("TecsoLog/Delete requiere el id.");
+                return RedirectToAction("Index");
             }
             TecsoLog tecsoLog = db.TecsoLogs.Find(id);
             if (tecsoLog == null)
             {
-                return HttpNotFound();
+                _logger.LogError("TecsoLog/Delete InscripcionID " + id.ToString() + " inexistente.");
+                return RedirectToAction("Index");
             }
             return View(tecsoLog);
         }
@@ -57,6 +61,8 @@ namespace Challenge.Controllers
             TecsoLog tecsoLog = db.TecsoLogs.Find(id);
             db.TecsoLogs.Remove(tecsoLog);
             db.SaveChanges();
+            _logger.LogMessage("Se ha eliminado un Log. TecsoLogID: " + id.ToString());
+
             return RedirectToAction("Index");
         }
 

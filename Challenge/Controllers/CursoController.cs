@@ -7,12 +7,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Challenge.Models;
+using Challenge.Services;
 
 namespace Challenge.Controllers
 {
     public class CursoController : Controller
     {
         private ChallengeDBContext db = new ChallengeDBContext();
+        TecsoLogger _logger;
+
+        public CursoController()
+        {
+            _logger = new TecsoLogger(true, true, true, true, true, true);
+        }
 
         // GET: Curso
         public ActionResult Index()
@@ -25,12 +32,14 @@ namespace Challenge.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                _logger.LogError("Curso/Details requiere el id.");
+                return RedirectToAction("Index");
             }
             Curso curso = db.Cursos.Find(id);
             if (curso == null)
             {
-                return HttpNotFound();
+                _logger.LogError("Curso/Details CursoID " + id.ToString() + " inexistente.");
+                return RedirectToAction("Index");
             }
             return View(curso);
         }
@@ -52,6 +61,7 @@ namespace Challenge.Controllers
             {
                 db.Cursos.Add(curso);
                 db.SaveChanges();
+                _logger.LogMessage("Se ha creado un curso nuevo. CursoID: " + curso.CursoID.ToString());
                 return RedirectToAction("Index");
             }
 
@@ -63,12 +73,14 @@ namespace Challenge.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                _logger.LogError("Curso/Edit requiere el id.");
+                return RedirectToAction("Index");
             }
             Curso curso = db.Cursos.Find(id);
             if (curso == null)
             {
-                return HttpNotFound();
+                _logger.LogError("Curso/Edit CursoID " + id.ToString() + " inexistente.");
+                return RedirectToAction("Index");
             }
             return View(curso);
         }
@@ -84,6 +96,7 @@ namespace Challenge.Controllers
             {
                 db.Entry(curso).State = EntityState.Modified;
                 db.SaveChanges();
+                _logger.LogMessage("Se ha editado un curso. CursoID: " + curso.CursoID.ToString());
                 return RedirectToAction("Index");
             }
             return View(curso);
@@ -94,12 +107,14 @@ namespace Challenge.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                _logger.LogError("Curso/Delete requiere el id.");
+                return RedirectToAction("Index");
             }
             Curso curso = db.Cursos.Find(id);
             if (curso == null)
             {
-                return HttpNotFound();
+                _logger.LogError("Curso/Delete CursoID " + id.ToString() + " inexistente.");
+                return RedirectToAction("Index");
             }
             return View(curso);
         }
@@ -112,6 +127,7 @@ namespace Challenge.Controllers
             Curso curso = db.Cursos.Find(id);
             db.Cursos.Remove(curso);
             db.SaveChanges();
+            _logger.LogMessage("Se ha eliminado un curso. CursoID: " + id.ToString());
             return RedirectToAction("Index");
         }
 

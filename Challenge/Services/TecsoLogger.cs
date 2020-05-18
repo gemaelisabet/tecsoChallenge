@@ -80,7 +80,7 @@ namespace Challenge.Services
             //Si no se dan ninguno de los casos anteriores, no tengo que loguear, en ninguno de los almacenamientos
             if (tipo==0 ) return;
 
-            //Comiezo la conexión a la bbdd y ejecuto la query
+            //Comienzo la conexión a la bbdd y ejecuto la query
             SqlConnection connection = new SqlConnection(System.Configuration.ConfigurationManager.AppSettings["TecsoLoggerConnectionString"]);
             connection.Open();
             string tabla = System.Configuration.ConfigurationManager.AppSettings["TecsoLoggerTable"];
@@ -94,7 +94,7 @@ namespace Challenge.Services
 
             //Preparo el texto para crear el archivo, o agregarlo al archivo existente
             string textoArchivo = "";
-            string path = ConfigurationManager.AppSettings["TecsoLoggerFilePath"] + "Archivo_Log" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+            string path = ConfigurationManager.AppSettings["TecsoLoggerFilePath"] + "ArchivoLog_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
             if (System.IO.File.Exists(path))
             {
                 textoArchivo = System.IO.File.ReadAllText(path);

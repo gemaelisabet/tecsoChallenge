@@ -44,14 +44,23 @@
 
             @foreach (var item in ViewBag.Documentos)
             {
-                <tr class="text-center">
+            <tr class="text-center">
+                <td>
+                    @item.Alumno.Apellido,  @item.Alumno.Nombre
+                </td>
+                @if (item.EstadoCursada.ToString() == "EnCurso")
+                {
                     <td>
-                        @item.Alumno.Apellido,  @item.Alumno.Nombre
+                        En Curso
                     </td>
+                }
+                else
+                {
                     <td>
                         @item.EstadoCursada
                     </td>
-                </tr>
+                }
+            </tr>
             }
 
         </table>
